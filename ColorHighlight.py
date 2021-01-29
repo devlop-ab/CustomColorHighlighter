@@ -16,35 +16,11 @@ import sublime_plugin
 from .settings import Settings, SettingTogglerCommandMixin
 from .colorizer import SchemaColorizer, all_names_to_hex, names_to_hex, xterm_to_hex, xterm8_to_hex, xterm8b_to_hex, xterm8f_to_hex
 
-NAME = "Color Highlight"
-VERSION = "1.2.2"
-
-
-# Color formats:
-# #000000FF
-# #FFFFFF
-# #FFF7
-# #FFF
-# rgb(255,255,255)
-# rgba(255, 255, 255, 1)
-# rgba(255, 255, 255, .2)
-# rgba(255, 255, 255, 0.5)
-# black
-# rgba(white, 20%)
-# 0xFFFFFF
-# hsl(360, 0%, 50%)
-# hsla(360, 0%, 50%, 0.5)
-# hwb(360, 50%, 50%)
-# lab(100, 100, 100) <-> #ff9331
-# lch(100, 100, 100) <-> #ffff00
-# hsv(40, 70%, 100%) <-> #ffc34d
-# \033[31m
-# \033[38;5;22m
-# \033[38;2;0;0;255m
+NAME = "Custom Highlighter"
+VERSION = "1.0.0"
 
 regex_cache = {}
 re_cache = {}
-
 
 def regex_factory(
     named_values,

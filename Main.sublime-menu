@@ -3,8 +3,8 @@
         "id": "tools",
         "children": [
             {
-                "id": "color-highlight",
-                "caption": "Color Highlight",
+                "id": "custom-highlighter",
+                "caption": "Custom Highlighter",
                 "children": [
                     {
                         "caption": "Color Highlight",
@@ -37,11 +37,11 @@
                 "mnemonic": "P",
                 "children": [
                     {
-                        "caption": "Color Highlight Settings",
+                        "caption": "Custom Highlighter Settings",
                         "command": "edit_settings",
                         "args": {
-                            "base_file": "${packages}/Color Highlight/Color Highlight.sublime-settings",
-                            "default": "/*\n\tColor Highlight user settings in here override the default\n*/\n{\n\t\"user\": {\n\t\t$0\n\t}\n}\n"
+                            "base_file": "${packages}/Custom Highlighter/Custom Highlighter.sublime-settings",
+                            "default": "/*\n\tCustom Highlighter user settings in here override the default\n*/\n{\n\t\"user\": {\n\t\t$0\n\t}\n}\n"
                         }
                     }
                 ]
