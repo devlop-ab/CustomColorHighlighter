@@ -44,7 +44,7 @@
                                 "command": "edit_settings",
                                 "args": {
                                     "base_file": "${packages}/Custom Highlighter/Custom Highlighter.sublime-settings",
-                                    "default": "/*\n\tCustom Highlighter user settings in here override the default\n*/\n{\n\t\"user\": {\n\t\t$0\n\t}\n}\n"
+                                    "default": "/*\n\tCustom Highlighter user settings in here override the default\n*/\n{\n\t\"user\": {\n\t\t\"colors\": {\n\t\t\t$0\n\t\t}\n\t}\n}\n"
                                 }
                             }
                         ]
