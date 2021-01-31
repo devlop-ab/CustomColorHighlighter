@@ -2,10 +2,8 @@ import re
 import os
 import time
 import zlib
-import math
 import struct
 import threading
-import colorsys
 from functools import partial
 
 import sublime
@@ -18,7 +16,6 @@ from .colorizer import SchemaColorizer
 # then no colors have been configured
 
 NAME = "Custom Highlighter"
-VERSION = "1.0.0"
 
 regex_cache = None
 re_cache = None
@@ -160,13 +157,13 @@ def toicon(name, gutter_icon=True, light=True):
 
 # Commands
 
-# class CustomHighlighterCommand(sublime_plugin.WindowCommand):
-#     def run_(self, edit_token, args={}):
-#         view = self.window.active_view()
-#         view.run_command('color_highlight', args)
-#
-#     def is_enabled(self):
-#         return True
+class CustomHighlighterCommand(sublime_plugin.WindowCommand):
+    def run_(self, edit_token, args={}):
+        view = self.window.active_view()
+        view.run_command('custom_highlighter', args)
+
+    def is_enabled(self):
+        return True
 
 
 class CustomHighlighterEnableLoadSaveCommand(CustomHighlighterCommand):
@@ -235,6 +232,7 @@ class CustomHighlighterCommand(sublime_plugin.TextCommand):
            used to dispatch to appropriate method'''
 
         action = args.get('action', '')
+
         if not action:
             return
 
@@ -607,7 +605,7 @@ def _callback(view, filename, kwargs):
     kwargs['callback'](view, filename, **kwargs)
 
 
-def background_color_highlight():
+def background_custom_highlighter():
     __lock_.acquire()
 
     try:
@@ -623,8 +621,8 @@ def background_color_highlight():
 ################################################################################
 # Queue dispatcher system:
 
-queue_dispatcher = background_color_highlight
-queue_thread_name = 'background color highlight'
+queue_dispatcher = background_custom_highlighter
+queue_thread_name = 'background custom highlighter'
 MAX_DELAY = 10
 
 
@@ -731,9 +729,9 @@ queue_finalize()
 
 # Initialize background thread:
 __loop_ = True
-__active_color_highlight_thread = threading.Thread(target=queue_loop, name=queue_thread_name)
-__active_color_highlight_thread.__semaphore_ = __semaphore_
-__active_color_highlight_thread.start()
+__active_custom_highlighter_thread = threading.Thread(target=queue_loop, name=queue_thread_name)
+__active_custom_highlighter_thread.__semaphore_ = __semaphore_
+__active_custom_highlighter_thread.start()
 
 
 ################################################################################
@@ -743,7 +741,7 @@ class CustomHighlighterSettings(Settings):
     def on_update(self):
         window = sublime.active_window()
         view = window.active_view()
-        view.run_command('color_highlight', dict(action='reset'))
+        view.run_command('custom_highlighter', dict(action='reset'))
 
 
 settings = CustomHighlighterSettings(NAME)
