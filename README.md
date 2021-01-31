@@ -11,6 +11,7 @@
     - <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd> then select `Package Control: Install Package`
     - install `Custom Highlighter`
 </strike>
+
 - Alternatively, download the package from [GitHub](https://github.com/devlop-ab/custom-highlighter "Custom Highlighter") into your `Packages` folder and make sure to rename the directory to "Custom Highlighter".
 
 
