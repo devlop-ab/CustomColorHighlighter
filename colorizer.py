@@ -1,8 +1,5 @@
-from __future__ import print_function
-
 import os
 import re
-import sys
 import json
 import errno
 import plistlib
@@ -10,12 +7,12 @@ import datetime
 
 import sublime
 
-from .colors import names_to_hex, xterm_to_hex, xterm8_to_hex, xterm8b_to_hex, xterm8f_to_hex
+# from .colors import names_to_hex, xterm_to_hex, xterm8_to_hex, xterm8b_to_hex, xterm8f_to_hex
 
 DEFAULT_COLOR_SCHEME = 'Monokai.sublime-color-scheme'
 
-all_names_to_hex = dict(names_to_hex, **xterm_to_hex)
-
+# all_names_to_hex = dict(names_to_hex, **xterm_to_hex)
+# all_names_to_hex = dict();
 
 class Log(object):
     def info(self, *args):
@@ -32,13 +29,9 @@ class Log(object):
 log = Log()
 
 
-if sys.version_info[0] == 3:
-    if not hasattr(plistlib, 'loads'):
-        plistlib.loads = lambda data: plistlib.readPlistFromBytes(data)
-        plistlib.dumps = lambda value: plistlib.writePlistToBytes(value)
-else:
-    plistlib.loads = lambda data: plistlib.readPlistFromString(data)
-    plistlib.dumps = lambda value: plistlib.writePlistToString(value)
+if not hasattr(plistlib, 'loads'):
+    plistlib.loads = lambda data: plistlib.readPlistFromBytes(data)
+    plistlib.dumps = lambda value: plistlib.writePlistToBytes(value)
 
 
 def write_package(path, content):
@@ -68,14 +61,17 @@ class ColorScheme(object):
 
     def __init__(self, settings):
         path = settings.get('color_scheme') or DEFAULT_COLOR_SCHEME
+
         if not path.startswith('Packages/'):
             path = 'Packages/Color Scheme - Default/' + path
+
         self.path = path[8:]
         self.time = datetime.datetime.now()
 
     def hash(self):
         if not hasattr(self, '_hash'):
             self._hash = hash(self.content())
+
         return self._hash
 
     def restore(self):
@@ -83,17 +79,21 @@ class ColorScheme(object):
         if not os.path.exists(sublime.packages_path() + self.path + self.backup_ext):
             log.debug("No backup :(")
             return False
+
         log.debug("Starting restore scheme: " + self.path)
         write_package(self.path, read_package(self.path + self.backup_ext))
         log.debug("Restore done.")
+
         return True
 
     def backup(self, content):
         if os.path.exists(sublime.packages_path() + self.path + self.backup_ext):
             log.debug("Already backed up")
             return False
+
         write_package(self.path + self.backup_ext, content)  # backup
         log.debug("Backup done")
+
         return True
 
     def content(self):
@@ -102,37 +102,63 @@ class ColorScheme(object):
             content = read_package(self.path)
             self.backup(content)
             self._content = content
+
         return self._content
 
 
-class SchemaColorizer(object):
+class SchemaColorizer:
     prefix = "col_"
 
     colors = {}
     color_scheme = None
     need_update = False
 
-    def normalize(self, col):
-        if col:
-            col = all_names_to_hex.get(col.lower(), col.upper())
-            if col.startswith('0X'):
-                col = '#' + col[2:]
-            try:
-                if col[0] != '#':
-                    raise ValueError
-                if len(col) == 4:
-                    col = '#' + col[1] * 2 + col[2] * 2 + col[3] * 2 + 'FF'
-                elif len(col) == 5:
-                    col = '#' + col[1] * 2 + col[2] * 2 + col[3] * 2 + col[4] * 2
-                elif len(col) == 7:
-                    col += 'FF'
-                r = int(col[1:3], 16)
-                g = int(col[3:5], 16)
-                b = int(col[5:7], 16)
-                a = int(col[7:9], 16) or 1  # alpha == 0 doesn't apply alpha in Sublime
-                return '#%02X%02X%02X%02X' % (r, g, b, a)
-            except Exception:
-                log.debug("Invalid color: %r" % col)
+    def normalize(self, col, colors):
+        # print({
+        #     "normalize": col,
+        # })
+        try:
+            color = colors[col].upper()
+        except Exception:
+            # print("Invalid color: %r" % col)
+            return
+
+        # if col:
+            # col = all_names_to_hex.get(col.lower(), col.upper())
+            # col = self.all_colors.get(col)
+            # if col.startswith('0X'):
+            #     col = '#' + col[2:]
+
+        try:
+            # if col[0] != '#':
+            #     raise ValueError
+
+            if len(color) == 4: #abc
+                color = '#' + color[1] * 2 + color[2] * 2 + color[3] * 2 + 'FF'
+            elif len(color) == 5: #abcd
+                color = '#' + color[1] * 2 + color[2] * 2 + color[3] * 2 + color[4] * 2
+            elif len(color) == 7: #aabbcc
+                color += 'FF'
+
+            if re.match(r'^#[A-F0-9]{8}$', color) == None:
+                raise ValueError('Invalid color format "%s"' % color)
+
+            r = int(color[1:3], 16)
+            g = int(color[3:5], 16)
+            b = int(color[5:7], 16)
+            a = int(color[7:9], 16) or 1  # alpha == 0 doesn't apply alpha in Sublime
+
+            # print({
+            #     "color": color,
+            #     "r": r,
+            #     "g": g,
+            #     "b": b,
+            #     "a": a,
+            # })
+
+            return '#%02X%02X%02X%02X' % (r, g, b, a)
+        except Exception:
+            print("Invalid color: %r" % color)
 
     def get_inv_col(self, bg_col, col):
         br = int(bg_col[1:3], 16)
@@ -164,13 +190,18 @@ class SchemaColorizer(object):
     def region_name(self, s):
         return self.prefix + s[1:]
 
-    def add_color(self, col):
-        col = self.normalize(col)
+    def add_color(self, col, colors):
+        # print({"add_color": col})
+        col = self.normalize(col, colors)
+        # print({"add_color": col})
+
         if not col:
             return
+
         if col not in self.colors:
             self.colors[col] = self.region_name(col)
             self.need_update = True
+
         return self.colors[col]
 
     def current_views(self):
@@ -181,13 +212,16 @@ class SchemaColorizer(object):
     def get_background_col(self, view=None):
         style = view.style()
         bg_col = style.get('background')
+
         if bg_col:
             return (bg_col + 'FF')[:9].upper()
+
         return '#333333FF'
 
     def update(self, view):
         if not self.need_update:
             return
+
         self.need_update = False
 
         content = self.color_scheme.content()
@@ -196,6 +230,7 @@ class SchemaColorizer(object):
         bg_col = self.get_background_col(view)
 
         rules = []
+
         if not re.search(r'\b%sgutter\b' % self.prefix, content):
             rules.append({
                 "scope": "%sgutter" % self.prefix,
@@ -251,9 +286,11 @@ class SchemaColorizer(object):
         if self.color_scheme and self.color_scheme.path == color_scheme.path:
             if self.color_scheme.time + datetime.timedelta(seconds=1) > color_scheme.time:
                 return
+
             if self.color_scheme.hash() == color_scheme.hash():
                 self.color_scheme.time = color_scheme.time
                 return
+
         log.debug("Color scheme %s setup" % color_scheme.path)
         self.color_scheme = color_scheme
         content = self.color_scheme.content()
@@ -264,5 +301,6 @@ class SchemaColorizer(object):
         if not self.color_scheme:
             log.error("Empty scheme, can't restore")
             return
+
         if self.color_scheme.restore():
             self.colors = {}

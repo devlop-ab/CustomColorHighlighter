@@ -7,14 +7,14 @@
                 "caption": "Custom Highlighter",
                 "children": [
                     {
-                        "caption": "Color Highlight",
-                        "command": "color_highlight",
+                        "caption": "Highlight Colors",
+                        "command": "custom_highlighter",
                         "mnemonic": "C",
                         "checkbox": true
                     },
                     {
                         "caption": "Restore color scheme",
-                        "command": "color_highlight_restore",
+                        "command": "custom_highlighter_restore",
                         "mnemonic": "s"
                     },
                     {
@@ -37,12 +37,17 @@
                 "mnemonic": "P",
                 "children": [
                     {
-                        "caption": "Custom Highlighter Settings",
-                        "command": "edit_settings",
-                        "args": {
-                            "base_file": "${packages}/Custom Highlighter/Custom Highlighter.sublime-settings",
-                            "default": "/*\n\tCustom Highlighter user settings in here override the default\n*/\n{\n\t\"user\": {\n\t\t$0\n\t}\n}\n"
-                        }
+                        "caption": "Custom Highlighter",
+                        "children": [
+                            {
+                                "caption": "Settings",
+                                "command": "edit_settings",
+                                "args": {
+                                    "base_file": "${packages}/Custom Highlighter/Custom Highlighter.sublime-settings",
+                                    "default": "/*\n\tCustom Highlighter user settings in here override the default\n*/\n{\n\t\"user\": {\n\t\t$0\n\t}\n}\n"
+                                }
+                            }
+                        ]
                     }
                 ]
             }

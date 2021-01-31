@@ -31,8 +31,8 @@
         /*
             colors - The colors to highlight
         */
-        "colors": [
-            "$johan": '#ff000044',
-        ],
-    }
+        "colors": {
+
+        },
+    },
 }

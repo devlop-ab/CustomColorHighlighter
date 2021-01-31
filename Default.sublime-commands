@@ -1,43 +1,43 @@
 [
     {
-        "caption": "Preferences: Color Highlight Settings",
+        "caption": "Preferences: Custom Highlighter Settings",
         "command": "edit_settings",
         "args": {
-          "base_file": "${packages}/Color Highlight/Color Highlight.sublime-settings",
-          "default": "/*\n\tColor Highlight user settings in here override the default\n*/\n{\n\t\"user\": {\n\t\t$0\n\t}\n}\n"}
+          "base_file": "${packages}/Custom Highlighter/Custom Highlighter.sublime-settings",
+          "default": "/*\n\tCustom Highlighter user settings in here override the default\n*/\n{\n\t\"user\": {\n\t\t$0\n\t}\n}\n"}
     },
     {
-        "caption": "Color Highlight: Color Highlight Current File",
-        "command": "color_highlight",
+        "caption": "Custom Highlighter: Highlight Current File",
+        "command": "custom_highlighter",
         "args": {"action": "highlight"}
     },
     {
-        "caption": "Color Highlight: Load-Save Color Highlighting",
-        "command": "color_highlight_enable_load_save",
+        "caption": "Custom Highlighter: Switch to Load-Save Highlighting",
+        "command": "custom_highlighter_enable_load_save",
         "args": {"action": "load-save"}
     },
     {
-        "caption": "Color Highlight: Save-Only Color Highlighting",
-        "command": "color_highlight_enable_save_only",
+        "caption": "Custom Highlighter: Switch to Save-Only Highlighting",
+        "command": "custom_highlighter_enable_save_only",
         "args": {"action": "save-only"}
     },
     {
-        "caption": "Color Highlight: Disable Color Highlighting",
-        "command": "color_highlight_disable",
+        "caption": "Custom Highlighter: Disable Highlighting",
+        "command": "custom_highlighter_disable",
         "args": {"action": "off"}
     },
     {
-        "caption": "Color Highlight: Enable Color Highlighting",
-        "command": "color_highlight_enable",
+        "caption": "Custom Highlighter: Enable Highlighting",
+        "command": "custom_highlighter_enable",
         "args": {"action": "on"}
     },
     {
-        "caption": "Color Highlight: Reset",
-        "command": "color_highlight",
+        "caption": "Custom Highlighter: Reset",
+        "command": "custom_highlighter",
         "args": {"action": "reset"}
     },
     {
-        "caption": "Color Highlight: Restore Color Scheme",
-        "command": "color_highlight_restore",
+        "caption": "Custom Highlighter: Restore Color Scheme",
+        "command": "custom_highlighter_restore",
     }
 ]
