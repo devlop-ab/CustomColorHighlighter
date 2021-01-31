@@ -410,9 +410,9 @@ def highlight_colors(view, selection=False, **kwargs):
     if not colors:
         colors = fallback_colors
 
-    print({
-        "colors": colors,
-    })
+    # print({
+    #     "colors": colors,
+    # })
 
     for i, col in enumerate(found):
         # mode, _, col = col.partition('|')

@@ -106,7 +106,7 @@ class ColorScheme(object):
         return self._content
 
 
-class SchemaColorizer:
+class SchemaColorizer(object):
     prefix = "col_"
 
     colors = {}

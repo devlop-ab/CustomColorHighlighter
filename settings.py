@@ -78,25 +78,33 @@ class Settings(object):
 
         """
 
-        # TODO: move both default and user to root level
-        default = settings.get('default', {})
-        user = settings.get('user', {})
+        return {
+            "highlight": settings.get("highlight"),
+            "gutter_icon": settings.get("gutter_icon"),
+            "highlight_values": settings.get("highlight_values"),
+            "colors": settings.get("colors"),
+        }
 
-        if user:
-            for setting_name in self.nested_settings:
-                default_setting = default.pop(setting_name, {})
-                user_setting = user.get(setting_name, {})
+        # print(self.settings)
 
-                for name, data in user_setting.items():
-                    if name in default_setting and isinstance(default_setting[name], dict):
-                        default_setting[name].update(data)
-                    else:
-                        default_setting[name] = data
-                default[setting_name] = default_setting
-                user.pop(setting_name, None)
-            default.update(user)
+        # default = settings.get('default', {})
+        # user = settings.get('user', {})
 
-        return default
+        # if user:
+        #     for setting_name in self.nested_settings:
+        #         default_setting = default.pop(setting_name, {})
+        #         user_setting = user.get(setting_name, {})
+
+        #         for name, data in user_setting.items():
+        #             if name in default_setting and isinstance(default_setting[name], dict):
+        #                 default_setting[name].update(data)
+        #             else:
+        #                 default_setting[name] = data
+        #         default[setting_name] = default_setting
+        #         user.pop(setting_name, None)
+        #     default.update(user)
+
+        # return merged_settings
 
     def on_change(self):
         """Update state when the user settings change."""
