@@ -3,7 +3,9 @@
 [![Package Control](https://img.shields.io/packagecontrol/dt/Custom%20Highlighter.svg)](https://packagecontrol.io/packages/Custom%20Highlighter)
 [![Package Control](https://img.shields.io/badge/license-MIT-green)](https://github.com/devlop-ab/custom-highlighter/blob/master/README.md)
 
-Custom Highlighter lets you highlight any words you wish with any color you desire, it's based on (and inspired by) [Kronuz/ColorHighlight](https://github.com/Kronuz/ColorHighlight), but instead of coming with a preconfigured set of words/patterns to highlight, Custom Highlighter comes with zero assumptions and let you configure anything you wish, as you wish.
+![Description](screenshots/screenshot.png?raw=true)
+
+Custom Highlighter lets you highlight any words you wish with any color you desire, it's based on (and inspired by) [Kronuz/ColorHighlight](https://github.com/Kronuz/ColorHighlight), but instead of coming with a preconfigured set of words/patterns to highlight, Custom Highlighter comes with zero assumptions and let you configure any color highlights you wish, as you wish.
 
 This is **not a replacement** for _Kronuz/ColorHighlight_, but they do work great together for maximum coloring goodness.
 
@@ -19,26 +21,19 @@ This is **not a replacement** for _Kronuz/ColorHighlight_, but they do work grea
 
 After installation, open up the settings (`Preferences > Package Settings > Custom Highlighter > Settings`) and configure it to fit you needs, entries are added as simple `key value` configurations, there is no regex support or wildcards when matching keywords, all keywords are matched exactly as configured.
 
-Some examples:
-
-Tailwind classes
+Usage example for Tailwind:
 
 ```
-"colors": {
-  "something": "#f00",
+{
+    "colors": {
+        "bg-green-100": "#BBF7D0",
+        "text-amber-600": "#D97706",
+        "text-cyan-600": "#0891B2",
+    }
 }
 ```
 
-Highlight mistakes
-
-We all have those common spelling mistakes or accidental key presses that we keep doing, configure your most common mispelings to be highlighted for you.
-
-```
-"colors": {
-  " ": "#f00", # MacOS non breaking space
-  "retrun": "#f00", #
-}
-```
+![Tailwind Example](screenshots/example-tailwind.png?raw=true)
 
 ## Configuration
 

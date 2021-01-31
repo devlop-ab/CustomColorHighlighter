@@ -35,9 +35,9 @@ def regex_factory():
         if not colors:
             colors = fallback_colors
 
-        print({
-            "colors": colors,
-        })
+        # print({
+        #     "colors": colors,
+        # })
 
         colors_regex = r'(%s)' % r'(?<![-.\w])%s(?![-.\w])' % r'(?![-.\w])|(?<![-.\w])'.join(map(lambda key: re.escape(key), colors.keys()))
 
@@ -238,9 +238,9 @@ class CustomHighlighterCommand(sublime_plugin.TextCommand):
 
         lc_action = action.lower()
 
-        print({
-            "lc_action": lc_action,
-        })
+        # print({
+        #     "lc_action": lc_action,
+        # })
 
         if lc_action == 'reset':
             self.reset()
