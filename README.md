@@ -12,9 +12,9 @@
 
 ## Usage
 
-Supported color representations are:
+Any keywords you configure in the user settings will be highlighted
 
-- Any keywords you configure in user settings
+Add new elements in this format (in the colors key): `"keyword": "#f00"`
 
 Those will be shown with colored background and gutter icons when they're found in
 your documents.
