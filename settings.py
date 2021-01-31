@@ -1,5 +1,3 @@
-from __future__ import absolute_import, unicode_literals, print_function
-
 import os
 import json
 from copy import deepcopy
@@ -81,6 +79,7 @@ class Settings(object):
 
         """
 
+        # TODO: move both default and user to root level
         default = settings.get('default', {})
         user = settings.get('user', {})
 
@@ -162,8 +161,8 @@ class Settings(object):
         """Perform an operation on a view with the given edit object."""
         callbacks = self.edits.pop(vid, [])
 
-        for c in callbacks:
-            c(edit)
+        for callback in callbacks:
+            callback(edit)
 
 
 class SettingsViewEditorCommand(sublime_plugin.TextCommand):
