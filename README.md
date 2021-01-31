@@ -1,6 +1,11 @@
 # 🎨 Custom Highlighter
 
 [![Package Control](https://img.shields.io/packagecontrol/dt/Custom%20Highlighter.svg)](https://packagecontrol.io/packages/Custom%20Highlighter)
+[![Package Control](https://img.shields.io/badge/license-MIT-green)](https://github.com/devlop-ab/custom-highlighter/blob/master/README.md)
+
+Custom Highlighter lets you highlight any words you wish with any color you desire, it's based on (and inspired by) [Kronuz/ColorHighlight](https://github.com/Kronuz/ColorHighlight), but instead of coming with a preconfigured set of words/patterns to highlight, Custom Highlighter comes with zero assumptions and let you configure anything you wish, as you wish.
+
+This is **not a replacement** for _Kronuz/ColorHighlight_, but they do work great together for maximum coloring goodness.
 
 ## Installation
 
@@ -12,13 +17,28 @@
 
 ## Usage
 
-Any keywords you configure in the user settings will be highlighted
+After installation, open up the settings (`Preferences > Package Settings > Custom Highlighter > Settings`) and configure it to fit you needs, entries are added as simple `key value` configurations, there is no regex support or wildcards when matching keywords, all keywords are matched exactly as configured.
 
-Add new elements in this format (in the colors key): `"keyword": "#f00"`
+Some examples:
 
-Those will be shown with colored background and gutter icons when they're found in
-your documents.
+Tailwind classes
 
+```
+"colors": {
+  "something": "#f00",
+}
+```
+
+Highlight mistakes
+
+We all have those common spelling mistakes or accidental key presses that we keep doing, configure your most common mispelings to be highlighted for you.
+
+```
+"colors": {
+  " ": "#f00", # MacOS non breaking space
+  "retrun": "#f00", #
+}
+```
 
 ## Configuration
 
@@ -36,9 +56,7 @@ your documents.
   + "fill" - Fill whole gutter with color
 
   ```
-  "user": {
-    "gutter_icon": "fill"
-  }
+  "gutter_icon": "fill"
   ```
 
   ![Gutter Icon](screenshots/gutter_icon.png?raw=true)
