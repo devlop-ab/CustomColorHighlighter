@@ -1,0 +1,6 @@
+/screenshots            export-ignore
+/.gitignore             export-ignore
+/.gitattributes         export-ignore
+/demo.md                export-ignore
+/example-tailwind.html  export-ignore
+/README.md              export-ignore
