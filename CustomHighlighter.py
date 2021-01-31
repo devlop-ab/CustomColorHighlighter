@@ -160,19 +160,18 @@ def toicon(name, gutter_icon=True, light=True):
 
 # Commands
 
-# treat hex vals as colors
-class ColorHighlightCommand(sublime_plugin.WindowCommand):
-    def run_(self, edit_token, args={}):
-        view = self.window.active_view()
-        view.run_command('color_highlight', args)
+# class CustomHighlighterCommand(sublime_plugin.WindowCommand):
+#     def run_(self, edit_token, args={}):
+#         view = self.window.active_view()
+#         view.run_command('color_highlight', args)
+#
+#     def is_enabled(self):
+#         return True
 
+
+class CustomHighlighterEnableLoadSaveCommand(CustomHighlighterCommand):
     def is_enabled(self):
-        return True
-
-
-class ColorHighlightEnableLoadSaveCommand(ColorHighlightCommand):
-    def is_enabled(self):
-        enabled = super(ColorHighlightEnableLoadSaveCommand, self).is_enabled()
+        enabled = super(CustomHighlighterEnableLoadSaveCommand, self).is_enabled()
 
         if enabled:
             if settings.get('highlight') == 'load-save':
@@ -181,9 +180,9 @@ class ColorHighlightEnableLoadSaveCommand(ColorHighlightCommand):
         return enabled
 
 
-class ColorHighlightEnableSaveOnlyCommand(ColorHighlightCommand):
+class CustomHighlighterEnableSaveOnlyCommand(CustomHighlighterCommand):
     def is_enabled(self):
-        enabled = super(ColorHighlightEnableSaveOnlyCommand, self).is_enabled()
+        enabled = super(CustomHighlighterEnableSaveOnlyCommand, self).is_enabled()
 
         if enabled:
             if settings.get('highlight') == 'save-only':
@@ -192,9 +191,9 @@ class ColorHighlightEnableSaveOnlyCommand(ColorHighlightCommand):
         return enabled
 
 
-class ColorHighlightDisableCommand(ColorHighlightCommand):
+class CustomHighlighterDisableCommand(CustomHighlighterCommand):
     def is_enabled(self):
-        enabled = super(ColorHighlightDisableCommand, self).is_enabled()
+        enabled = super(CustomHighlighterDisableCommand, self).is_enabled()
 
         if enabled:
             if settings.get('highlight') is False:
@@ -203,7 +202,7 @@ class ColorHighlightDisableCommand(ColorHighlightCommand):
         return enabled
 
 
-class ColorHighlightEnableCommand(ColorHighlightCommand):
+class CustomHighlighterEnableCommand(CustomHighlighterCommand):
     def is_enabled(self):
         view = self.window.active_view()
 
@@ -214,34 +213,8 @@ class ColorHighlightEnableCommand(ColorHighlightCommand):
         return True
 
 
-# treat hex vals as colors
-class ColorHighlightHexValsAsColorsCommand(ColorHighlightCommand):
-    def is_enabled(self):
-        enabled = super(ColorHighlightHexValsAsColorsCommand, self).is_enabled()
-
-        if enabled:
-            if settings.get('hex_values') is False:
-                return False
-
-        return enabled
-    is_checked = is_enabled
-
-
-# treat hex vals as colors
-class ColorHighlightXHexValsAsColorsCommand(ColorHighlightCommand):
-    def is_enabled(self):
-        enabled = super(ColorHighlightXHexValsAsColorsCommand, self).is_enabled()
-
-        if enabled:
-            if settings.get('0x_hex_values') is False:
-                return False
-
-        return enabled
-    is_checked = is_enabled
-
-
 # command to restore color scheme
-class ColorHighlightRestoreCommand(sublime_plugin.TextCommand):
+class CustomHighlighterRestoreCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         erase_highlight_colors()
         colorizer.restore_color_scheme()
@@ -250,7 +223,7 @@ class ColorHighlightRestoreCommand(sublime_plugin.TextCommand):
 all_regs = []
 
 
-class ColorHighlightCommand(sublime_plugin.TextCommand):
+class CustomHighlighterCommand(sublime_plugin.TextCommand):
     '''command to interact with linters'''
 
     def __init__(self, view):
@@ -267,6 +240,10 @@ class ColorHighlightCommand(sublime_plugin.TextCommand):
 
         lc_action = action.lower()
 
+        print({
+            "lc_action": lc_action,
+        })
+
         if lc_action == 'reset':
             self.reset()
         elif lc_action == 'off':
@@ -277,22 +254,8 @@ class ColorHighlightCommand(sublime_plugin.TextCommand):
             self.enable_load_save()
         elif lc_action == 'save-only':
             self.enable_save_only()
-        elif lc_action == 'hex':
-            self.toggle_hex_values()
-        elif lc_action == 'xhex':
-            self.toggle_xhex_values()
         else:
             highlight_colors(self.view)
-
-    def toggle_hex_values(self):
-        settings.set('hex_values', not settings.get('hex_values'), changed=True)
-        settings.save()
-        queue_highlight_colors(self.view, preemptive=True)
-
-    def toggle_xhex_values(self):
-        settings.set('0x_hex_values', not settings.get('0x_hex_values'), changed=True)
-        settings.save()
-        queue_highlight_colors(self.view, preemptive=True)
 
     def reset(self):
         '''Removes existing lint marks and restores user settings.'''
@@ -326,7 +289,7 @@ class ColorHighlightCommand(sublime_plugin.TextCommand):
         erase_highlight_colors()
 
 
-class ColorHighlightViewEventListener(sublime_plugin.ViewEventListener):
+class CustomHighlighterViewEventListener(sublime_plugin.ViewEventListener):
     def on_modified(self):
         if settings.get('highlight') is not True:
             return
@@ -785,7 +748,7 @@ class CustomHighlighterSettings(Settings):
 
 settings = CustomHighlighterSettings(NAME)
 
-class ColorHighlightSettingCommand(SettingTogglerCommandMixin, sublime_plugin.WindowCommand):
+class CustomHighlighterSettingCommand(SettingTogglerCommandMixin, sublime_plugin.WindowCommand):
     settings = settings
 
 
